@@ -12,9 +12,9 @@ class ProductGrid extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final productsData = Provider.of<Products>(context);
-    final productItem = isFavorate?productsData.favorateItems: productsData.items;
-
-
+    final productItem =
+        isFavorate ? productsData.favorateItems : productsData.items;
+    print("grid ran");
     return GridView.builder(
       padding: const EdgeInsets.all(5),
       gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
@@ -24,8 +24,7 @@ class ProductGrid extends StatelessWidget {
           mainAxisSpacing: 10),
       itemCount: productItem.length,
       itemBuilder: (ctx, i) => ChangeNotifierProvider.value(
-          value: productItem[i],
-          child: ProductItem()),
+          value: productItem[i], child: ProductItem()),
     );
   }
 }

@@ -57,7 +57,7 @@ class _AddProductState extends State<AddProduct> {
     }
   }
 
-  void _save() {
+  void _save() async {
     final isValid = _form.currentState?.validate() ?? false;
     if (!isValid) {
       return;
@@ -90,9 +90,6 @@ class _AddProductState extends State<AddProduct> {
                   ],
                 ));
       }).then((_) {
-        setState(() {
-          _isloaded = false;
-        });
         Navigator.of(context).pop(true);
       });
     } else {
@@ -104,22 +101,18 @@ class _AddProductState extends State<AddProduct> {
           imageUrl: _imgUrlController.text,
           isFavorate: _initialValue.isFavorate);
 
-      Provider.of<Products>(context, listen: false)
+      await Provider.of<Products>(context, listen: false)
           .updateProduct(_pId ?? "", newProd);
 
       Navigator.of(context).pop(true);
     }
+    setState(() {
+      _isloaded = false;
+    });
   }
 
   @override
   Widget build(BuildContext context) {
-    _titleController.text = "Demo";
-
-    _descController.text = "Demo Desc";
-
-    _priceController.text = "10.0";
-    _imgUrlController.text = "https://source.unsplash.com/random";
-
     return Scaffold(
       appBar: AppBar(
         title: const Text("Edit Products"),

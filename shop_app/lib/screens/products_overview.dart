@@ -18,6 +18,37 @@ class ProductOverview extends StatefulWidget {
 
 class _ProductOverviewState extends State<ProductOverview> {
   var _showFavorate = false;
+  bool didLoadedOnce = false;
+  bool loading = true;
+
+  Future<void> loadProducts() async {
+    setState(() {
+      loading = true;
+    });
+
+    await Provider.of<Products>(context, listen: false)
+        .getItems()
+        .then((value) {
+      setState(() {
+        loading = false;
+      });
+    });
+  }
+
+  @override
+  void didChangeDependencies() async {
+    if (!didLoadedOnce) {
+      Provider.of<Products>(context).getItems().then((value) {
+        setState(() {
+          loading = false;
+        });
+        didLoadedOnce = true;
+      });
+    }
+    // didLoadedOnce = true;
+
+    super.didChangeDependencies();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -36,10 +67,10 @@ class _ProductOverviewState extends State<ProductOverview> {
               });
             },
             child: Icon(Icons.more_vert),
-            itemBuilder: (_) =>const [
+            itemBuilder: (_) => const [
               PopupMenuItem(
                 value: FilterOptions.favoriteOnly,
-                child:Text("Show Favorites Only"),
+                child: Text("Show Favorites Only"),
               ),
               PopupMenuItem(
                 child: Text("Show All"),
@@ -50,15 +81,25 @@ class _ProductOverviewState extends State<ProductOverview> {
           Consumer<Cart>(
             //Consumer builder(arg) take arguments as alias of other cosumer arguments which can be used in the function as names of argument defined below.
             //Like child argument given in builder function will to the child argument defined below in builder function.
-            builder: (context, value, ch) =>Badge(child: ch,value: value.itemsCount,color: Colors.red,),
-            child:
-                IconButton(icon: Icon(Icons.shopping_cart), onPressed: () {
+            builder: (context, value, ch) => Badge(
+              child: ch,
+              value: value.itemsCount,
+              color: Colors.red,
+            ),
+            child: IconButton(
+                icon: Icon(Icons.shopping_cart),
+                onPressed: () {
                   Navigator.pushNamed(context, Routes.checkout);
                 }),
           ),
         ]),
-        body: ProductGrid(
-          isFavorate: _showFavorate,
+        body: RefreshIndicator(
+          onRefresh: () => loadProducts(),
+          child: loading
+              ? Container(child: Center(child: CircularProgressIndicator()))
+              : ProductGrid(
+                  isFavorate: _showFavorate,
+                ),
         ));
   }
 }
