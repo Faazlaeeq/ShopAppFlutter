@@ -10,7 +10,6 @@ class CheckOut extends StatelessWidget {
   Widget build(BuildContext context) {
     final cart = Provider.of<Cart>(context);
     return Scaffold(
-
       appBar: AppBar(
         title: Text("Check Out"),
       ),
@@ -35,8 +34,9 @@ class CheckOut extends StatelessWidget {
                     ),
                     TextButton(
                         onPressed: () {
-                          Provider.of<Prov_Orders>(context,listen: false).addOrder(
-                              cart.totalCount, cart.items.values.toList());
+                          Provider.of<Prov_Orders>(context, listen: false)
+                              .addOrder(cart.totalCount,
+                                  cart.items.values.toList(), context);
                           cart.clear();
                           Navigator.pushNamed(context, Routes.orders);
                         },

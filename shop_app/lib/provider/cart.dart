@@ -11,20 +11,32 @@ class CartItem {
       required this.title,
       required this.price,
       required this.quantity});
+
+  Map<String, dynamic> toJson() {
+    return {
+      'id': id,
+      'productName': title,
+      'quantity': quantity,
+      'price': price,
+    };
+  }
 }
 
 class Cart with ChangeNotifier {
-  late Map<String, CartItem> _items={};
+  late Map<String, CartItem> _items = {};
 
   Map<String, CartItem> get items {
     return {..._items};
   }
 
-  String get itemsCount{
-    int qty=0;
-    _items.forEach((key, value) {qty+=value.quantity;});
+  String get itemsCount {
+    int qty = 0;
+    _items.forEach((key, value) {
+      qty += value.quantity;
+    });
     return qty.toString();
   }
+
   void addItem(String productId, String title, double price) {
     if (items.containsKey(productId)) {
       _items.update(
@@ -42,19 +54,22 @@ class Cart with ChangeNotifier {
     }
     notifyListeners();
   }
-  double get totalCount{
-    var total=0.0;
-    _items.forEach((key, value) {total+=value.quantity*value.price;});
+
+  double get totalCount {
+    var total = 0.0;
+    _items.forEach((key, value) {
+      total += value.quantity * value.price;
+    });
     return total;
   }
 
-  void removeItem(String productId){
+  void removeItem(String productId) {
     _items.remove(productId);
     notifyListeners();
   }
-  void clear(){
-    _items={};
+
+  void clear() {
+    _items = {};
     notifyListeners();
   }
-
 }
