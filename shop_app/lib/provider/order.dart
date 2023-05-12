@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:shop_app/models/order.dart';
 import 'package:http/http.dart' as http;
+import 'package:shop_app/widgets/snackbars.dart';
 import 'cart.dart';
 
 // ignore: camel_case_types
@@ -19,22 +20,18 @@ class Prov_Orders with ChangeNotifier {
     final uri = Uri.parse(url);
 
     try {
-      final res = await http.post(uri, body: {
-        "id": DateTime.now().toString(),
-        "dataTime":
-            DateFormat("dd-mm-yyyy hh:mm").format(DateTime.now()).toString(),
-        "price": "$total",
-        "products": json.encode(cartItems)
-      });
+      final res = await http.post(uri,
+          body: json.encode({
+            "id": DateTime.now().toString(),
+            "dataTime": DateFormat("dd-mm-yyyy hh:mm")
+                .format(DateTime.now())
+                .toString(),
+            "price": "$total",
+            "products": json.encode(cartItems.toList())
+          }));
     } catch (e) {
       print("Error:$e , CartItems: $cartItems");
-      ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(
-          content: Text(
-            'Error adding order: $e',
-          ),
-        ),
-      );
+      MySnackBars.errorSnackBar(context, e.toString());
       return;
     }
 
@@ -48,12 +45,7 @@ class Prov_Orders with ChangeNotifier {
             price: total,
             products: cartItems));
 
-    ScaffoldMessenger.of(context).showSnackBar(
-      const SnackBar(
-        content: Text('Product Successfully Added'),
-        backgroundColor: Color.fromARGB(255, 142, 255, 138),
-      ),
-    );
+    MySnackBars.successSnackBar(context, text: "Thanks for placing your Order");
     notifyListeners();
   }
 }
