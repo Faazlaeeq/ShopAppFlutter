@@ -6,12 +6,19 @@ class SingleProduct extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final productId = ModalRoute.of(context)?.settings.arguments as String;
-    final loadedProduct = Provider.of<Products>(context)
-        .findById(productId);
+    final loadedProduct = Provider.of<Products>(context).findById(productId);
     return Scaffold(
-
         appBar: AppBar(
-      title: Text(loadedProduct.title),
-    ));
+          title: Text(loadedProduct.title),
+        ),
+        body: Card(
+          child: Column(children: [
+            Image.network(loadedProduct.imageUrl),
+            Text(
+              "\$${loadedProduct.price.toString()}",
+              style: TextStyle(fontSize: 26),
+            ),
+          ]),
+        ));
   }
 }
