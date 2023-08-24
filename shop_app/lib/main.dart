@@ -10,6 +10,7 @@ import 'package:shop_app/screens/orders_screen.dart';
 import 'package:shop_app/screens/products_overview.dart';
 import 'package:shop_app/screens/single_product_screen.dart';
 import 'package:shop_app/screens/user_products_screen.dart';
+import 'package:shop_app/theme/themedata.dart';
 
 void main() => runApp(const MyApp());
 
@@ -18,6 +19,7 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    ThemeSettings theme = ThemeSettings();
     return MultiProvider(
         providers: [
           ChangeNotifierProvider(create: (ctx) => Products()),
@@ -25,6 +27,8 @@ class MyApp extends StatelessWidget {
           ChangeNotifierProvider(create: (ctx) => Prov_Orders()),
         ],
         child: MaterialApp(
+          themeMode: ThemeMode.dark,
+          darkTheme: theme.darkTheme,
           home: ProductOverview(),
           routes: {
             Routes.productsOverview: (ctx) => ProductOverview(),
