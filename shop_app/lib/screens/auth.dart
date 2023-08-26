@@ -1,7 +1,5 @@
 import 'package:flutter/material.dart';
 
-import '../routes.dart';
-
 class AuthScreen extends StatefulWidget {
   const AuthScreen({super.key});
 
@@ -10,12 +8,108 @@ class AuthScreen extends StatefulWidget {
 }
 
 class _AuthScreenState extends State<AuthScreen> {
-  late bool isVisible;
+  late bool isVisible = false;
+  bool _isLogin = true;
+  late Widget switchwidget;
+
   @override
   void initState() {
-    isVisible = false;
-
+    switchwidget = switchwidgetfun();
     super.initState();
+  }
+
+  Widget switchwidgetfun() {
+    Widget signupwidget = Column(
+      key: const ValueKey<bool>(false),
+      children: [
+        const SizedBox(height: 20),
+        const TextField(
+          decoration: InputDecoration(
+            fillColor: Color.fromARGB(255, 180, 69, 69),
+            labelText: "Full Name",
+            hintText: "Enter your Name",
+          ),
+        ),
+        const SizedBox(height: 20),
+        const TextField(
+          decoration: InputDecoration(
+            fillColor: Color.fromARGB(255, 180, 69, 69),
+            labelText: "Email",
+            hintText: "Enter your Email address",
+          ),
+        ),
+        const SizedBox(height: 20),
+        TextField(
+          obscureText: !isVisible,
+          decoration: InputDecoration(
+            labelText: "Password",
+            hintText: "Password",
+            suffixIcon: IconButton(
+              iconSize: 15,
+              visualDensity: VisualDensity.compact,
+              splashRadius: 20,
+              icon: Icon(isVisible ? Icons.visibility : Icons.visibility_off),
+              onPressed: () {
+                setState(() {
+                  isVisible = !isVisible;
+                });
+              },
+            ),
+          ),
+        ),
+        const SizedBox(
+          height: 10,
+        ),
+        Row(
+          children: [
+            Expanded(
+              child: TextButton(
+                child: const Text(
+                  "Sign Up",
+                ),
+                onPressed: () {},
+              ),
+            ),
+          ],
+        )
+      ],
+    );
+    Widget loginwidget = Column(
+      key: const ValueKey<bool>(true),
+      children: [
+        const TextField(
+          decoration: InputDecoration(
+            fillColor: Color.fromARGB(255, 180, 69, 69),
+            labelText: "Email",
+            hintText: "Enter your Email address",
+          ),
+        ),
+        const SizedBox(height: 20),
+        const TextField(
+          decoration: InputDecoration(
+            labelText: "Password",
+            hintText: "Password",
+          ),
+        ),
+        const SizedBox(
+          height: 10,
+        ),
+        Row(
+          children: [
+            Expanded(
+              child: TextButton(
+                child: const Text(
+                  "Login",
+                ),
+                onPressed: () {},
+              ),
+            ),
+          ],
+        ),
+      ],
+    );
+
+    return (_isLogin ? loginwidget : signupwidget);
   }
 
   @override
@@ -28,101 +122,22 @@ class _AuthScreenState extends State<AuthScreen> {
         children: [
           Center(
               child: Image.asset("assets/images/white-logo.png", height: 60)),
-          const SizedBox(height: 40),
-          Visibility(
-              visible: false,
-              child: Column(
-                children: [
-                  const SizedBox(height: 20),
-                  const TextField(
-                    decoration: InputDecoration(
-                      fillColor: Color.fromARGB(255, 180, 69, 69),
-                      labelText: "Full Name",
-                      hintText: "Enter your Name",
-                    ),
-                  ),
-                  const SizedBox(height: 20),
-                  const TextField(
-                    decoration: InputDecoration(
-                      fillColor: Color.fromARGB(255, 180, 69, 69),
-                      labelText: "Email",
-                      hintText: "Enter your Email address",
-                    ),
-                  ),
-                  const SizedBox(height: 20),
-                  TextField(
-                    obscureText: !isVisible,
-                    decoration: InputDecoration(
-                      labelText: "Password",
-                      hintText: "Password",
-                      suffixIcon: IconButton(
-                        iconSize: 15,
-                        visualDensity: VisualDensity.compact,
-                        splashRadius: 20,
-                        icon: Icon(isVisible
-                            ? Icons.visibility
-                            : Icons.visibility_off),
-                        onPressed: () {
-                          setState(() {
-                            isVisible = !isVisible;
-                          });
-                        },
-                      ),
-                    ),
-                  ),
-                  const SizedBox(
-                    height: 10,
-                  ),
-                  Row(
-                    children: [
-                      Expanded(
-                        child: TextButton(
-                          child: const Text(
-                            "Login",
-                          ),
-                          onPressed: () {},
-                        ),
-                      ),
-                    ],
-                  )
-                ],
-              )),
-          const TextField(
-            decoration: InputDecoration(
-              fillColor: Color.fromARGB(255, 180, 69, 69),
-              labelText: "Username",
-              hintText: "Enter your username",
-            ),
-          ),
           const SizedBox(height: 20),
-          const TextField(
-            decoration: InputDecoration(
-              labelText: "Password",
-              hintText: "Password",
-            ),
-          ),
-          const SizedBox(
-            height: 10,
-          ),
-          Row(
-            children: [
-              Expanded(
-                child: TextButton(
-                  child: const Text(
-                    "Login",
-                  ),
-                  onPressed: () {},
-                ),
-              ),
-            ],
-          ),
+          AnimatedSwitcher(
+              duration: const Duration(milliseconds: 500), child: switchwidget),
           InkWell(
             onTap: () {
-              Navigator.of(context).pushNamed(Routes.signup);
+              setState(() {
+                _isLogin = !_isLogin;
+
+                switchwidget = switchwidgetfun();
+              });
             },
-            child: const Text(
-              "Don't have an account? Signup",
-              style: TextStyle(
+            child: Text(
+              _isLogin
+                  ? "Don't have an account? Signup"
+                  : "Already have and account? Login.",
+              style: const TextStyle(
                 height: 2,
                 color: Colors.blue,
               ),
