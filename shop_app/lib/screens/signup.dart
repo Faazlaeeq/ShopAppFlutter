@@ -1,7 +1,20 @@
 import 'package:flutter/material.dart';
 
-class SignupScreen extends StatelessWidget {
+class SignupScreen extends StatefulWidget {
   const SignupScreen({super.key});
+
+  @override
+  State<SignupScreen> createState() => _SignupScreenState();
+}
+
+class _SignupScreenState extends State<SignupScreen> {
+  late bool isVisible;
+  @override
+  void initState() {
+    isVisible = false;
+
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -13,36 +26,6 @@ class SignupScreen extends StatelessWidget {
         children: [
           Center(
               child: Image.asset("assets/images/white-logo.png", height: 60)),
-          const SizedBox(height: 20),
-          const TextField(
-            decoration: InputDecoration(
-              fillColor: Color.fromARGB(255, 180, 69, 69),
-              labelText: "Username",
-              hintText: "Enter your username",
-            ),
-          ),
-          const SizedBox(height: 20),
-          const TextField(
-            decoration: InputDecoration(
-              labelText: "Password",
-              hintText: "Password",
-            ),
-          ),
-          const SizedBox(
-            height: 10,
-          ),
-          Row(
-            children: [
-              Expanded(
-                child: TextButton(
-                  child: const Text(
-                    "Login",
-                  ),
-                  onPressed: () {},
-                ),
-              ),
-            ],
-          )
         ],
       ),
     ));
