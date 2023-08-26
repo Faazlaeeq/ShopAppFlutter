@@ -6,8 +6,10 @@ import 'package:shop_app/provider/products.dart';
 import 'package:shop_app/routes.dart';
 import 'package:shop_app/screens/add_product.dart';
 import 'package:shop_app/screens/checkout_screen.dart';
+import 'package:shop_app/screens/login.dart';
 import 'package:shop_app/screens/orders_screen.dart';
 import 'package:shop_app/screens/products_overview.dart';
+import 'package:shop_app/screens/signup.dart';
 import 'package:shop_app/screens/single_product_screen.dart';
 import 'package:shop_app/screens/user_products_screen.dart';
 import 'package:shop_app/theme/themedata.dart';
@@ -29,8 +31,10 @@ class MyApp extends StatelessWidget {
         child: MaterialApp(
           themeMode: ThemeMode.dark,
           darkTheme: theme.darkTheme,
-          home: ProductOverview(),
+          home: const LoginScreen(),
           routes: {
+            Routes.login: (ctx) => const LoginScreen(),
+            Routes.login: (ctx) => const SignupScreen(),
             Routes.productsOverview: (ctx) => ProductOverview(),
             Routes.singleProduct: (ctx) => SingleProduct(),
             Routes.checkout: (ctx) => CheckOut(),

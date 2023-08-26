@@ -51,11 +51,11 @@ class _ProductOverviewState extends State<ProductOverview> {
 
   @override
   Widget build(BuildContext context) {
-    final cart = Provider.of<Cart>(context);
     return Scaffold(
         drawer: const DrawerWid(),
         appBar: AppBar(
-            title: Image.asset("assets/images/white-logo.png"),
+            title: Center(
+                child: Image.asset("assets/images/white-logo.png", height: 30)),
             actions: [
               PopupMenuButton(
                 onSelected: (FilterOptions value) {
@@ -67,15 +67,15 @@ class _ProductOverviewState extends State<ProductOverview> {
                     }
                   });
                 },
-                child: Icon(Icons.more_vert),
+                child: const Icon(Icons.more_vert),
                 itemBuilder: (_) => const [
                   PopupMenuItem(
                     value: FilterOptions.favoriteOnly,
                     child: Text("Show Favorites Only"),
                   ),
                   PopupMenuItem(
-                    child: Text("Show All"),
                     value: FilterOptions.showAll,
+                    child: Text("Show All"),
                   )
                 ],
               ),
@@ -84,13 +84,13 @@ class _ProductOverviewState extends State<ProductOverview> {
                 //Like child argument given in builder function will to the child argument defined below in builder function.
                 builder: (context, value, ch) {
                   return BadgeWid(
-                    child: ch,
                     value: value.itemsCount,
                     color: Colors.red,
+                    child: ch,
                   );
                 },
                 child: IconButton(
-                    icon: Icon(Icons.shopping_cart),
+                    icon: const Icon(Icons.shopping_cart),
                     onPressed: () {
                       Navigator.pushNamed(context, Routes.checkout);
                     }),
@@ -99,7 +99,8 @@ class _ProductOverviewState extends State<ProductOverview> {
         body: RefreshIndicator(
           onRefresh: () => loadProducts(),
           child: loading
-              ? Container(child: Center(child: CircularProgressIndicator()))
+              ? Container(
+                  child: const Center(child: CircularProgressIndicator()))
               : ProductGrid(
                   isFavorate: _showFavorate,
                 ),

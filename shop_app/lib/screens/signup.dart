@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
-class LoginScreen extends StatelessWidget {
-  const LoginScreen({super.key});
+class SignupScreen extends StatelessWidget {
+  const SignupScreen({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -42,17 +42,6 @@ class LoginScreen extends StatelessWidget {
                 ),
               ),
             ],
-          ),
-          InkWell(
-            onTap: () {
-              Navigator.pushNamed(context, '/signup');
-            },
-            child: const Text(
-              "Don't have an account? Signup",
-              style: TextStyle(
-                color: Colors.blue,
-              ),
-            ),
           )
         ],
       ),

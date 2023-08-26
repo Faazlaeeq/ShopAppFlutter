@@ -14,17 +14,17 @@ class DrawerWid extends StatelessWidget {
             automaticallyImplyLeading: false,
           ),
           ListTile(
-            title: Text("Home"),
-            leading: Icon(Icons.home),
+            title: const Text("Home"),
+            leading: const Icon(Icons.home),
             onTap: () => Navigator.pushReplacementNamed(context, "/"),
           ),
           ListTile(
-              title: Text("Orders"),
-              leading: Icon(Icons.shopping_bag),
+              title: const Text("Orders"),
+              leading: const Icon(Icons.shopping_bag),
               onTap: () => Navigator.pushNamed(context, Routes.orders)),
           ListTile(
-              title: Text("Manage Products"),
-              leading: Icon(Icons.color_lens),
+              title: const Text("Manage Products"),
+              leading: const Icon(Icons.color_lens),
               onTap: () => Navigator.pushNamed(context, Routes.userProducts)),
         ],
       ),
